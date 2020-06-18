@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bootstrap Example</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="text/javascript" src="js/validator.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<style>
+            body {
+            padding-top: 60px;
+                }
+           
+		</style>
+		<link rel="stylesheet" href="css/theme.green.css">
+		<!-- load jQuery and tablesorter scripts -->
+		<script type="text/javascript" src="js/jquery-latest.js"></script>
+		<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+		<!-- tablesorter widgets (optional) -->
+		<script type="text/javascript" src="js/jquery.tablesorter.widgets.js"></script>
+		<script>
+			function zakupService(){
+				localStorage.removeItem('koszyk');
+				var koszykTBody = document.getElementById("koszykTableBody");
+				koszykTBody.innerHTML="";
+				updatePrice();
+				alert("Pomyślny zakup!");
+			}
+			function pokazKoszyk() {
+				
+				var kosz = localStorage.getItem('koszyk');
+				var koszykTBody = document.getElementById("koszykTableBody");
+				koszykTBody.innerHTML="";
+				kosz = "["+kosz+"]";
+				console.log(kosz);
+				kosz = JSON.parse(kosz)
+				
+				for (var i = 0; i < kosz.length; i++) {
+    				koszykTBody.innerHTML += "<tr><td style='border: 1px; border-style: solid;'>" + kosz[i].nazwa + "</td><td style='border: 1px; border-style: solid;'>" + kosz[i].cena + "</td><td>" + "<input onblur='updatePrice()' class='ilosc3' value=1 ></input>" + "</td></tr>";
+				}
+				updatePrice();
+				
+				
+			}
+			function updatePrice(){
+				var res = document.getElementById("result");
+				var price = 0;
+				var x = document.getElementById("koszykTable").rows.length;
+				var tB = document.getElementById("koszykTable").rows
+				for(var i=1;i<x;i++){
+					price+=parseFloat($(tB[i]).find('td:eq(1)').text())*parseFloat($(tB[i]).find('td:eq(2) input').val());
+					console.log(price);
+				}
+				var z = document.getElementById("pocztex");
+				z = parseFloat(z.options[z.selectedIndex].value);
+				price+=z;
+				res.innerHTML = price.toFixed(2);
+			}
+
+			
+			$(function(){
+				$('table').delegate('button.remove', 'click' ,function() {
+      				
+					  $(this).closest('tr').remove();
+					  t.trigger('update');
+      				return false;
+    		});
+			});
+
+			$(function(){
+				$('table').delegate('button.edit', 'click' ,function() {
+					var t = $('table');
+					document.getElementById('towar_name').value = $(this).closest('tr').find('td:eq(0)').text();
+					document.getElementById('kod_towaru').value = $(this).closest('tr').find('td:eq(1)').text();
+					document.getElementById('cena_netto').value = $(this).closest('tr').find('td:eq(2)').text();
+					document.getElementById('stawka_vat').value = $(this).closest('tr').find('td:eq(3)').text();
+					document.getElementById('cena_brutto').value = $(this).closest('tr').find('td:eq(4)').text();
+					document.getElementById('dodaj').firstChild.data = 'Edytuj';
+					$(this).closest('tr').remove();
+					t.trigger('update');
+					return false;
+    		});
+			});
+
+			$(function(){
+				$('table').delegate('button.toCart', 'click' ,function() {
+					var nazwa = $(this).closest('tr').find('td:eq(0)').text();
+					var cena = $(this).closest('tr').find('td:eq(4)').text();
+					var tablica = {"nazwa":nazwa,"cena":cena};
+					var zebraneDane = JSON.stringify(tablica);
+					if(localStorage.getItem('koszyk')!=null) localStorage.setItem('koszyk', localStorage.getItem('koszyk')+","+zebraneDane);
+					else localStorage.setItem('koszyk',zebraneDane);
+					
+					return false;
+    		});
+			});
+			
+			
+			function myFunction(){
+				$("#myTable").trigger("sorton", [ [[0,"d"],[1,"a"]] ]);
+			}
+			function doSomething(){
+				switch(sortowanko.selectedIndex){
+					case 4: $("#myTable").trigger("sorton", [ [[0,"a"]]]); break;
+					case 5: $("#myTable").trigger("sorton", [ [[0,"d"]]]); break;
+					case 0: $("#myTable").trigger("sorton", [ [[4,"a"]]]); break;
+					case 1: $("#myTable").trigger("sorton", [ [[4,"d"]]]); break;
+					case 2: $("#myTable").trigger("sorton", [ [[7,"a"]]]); break;
+					case 3: $("#myTable").trigger("sorton", [ [[7,"d"]]]); break;
+				}
+			}
+			</script>
+			
+    </head>
+    <body class="h-100">
+
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-item nav-link" href="index.html">Strona główna</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-item nav-link" href="http://lcieszynski.zut.edu.pl/fileadmin/DPD/instrukcja_2019.pdf">Instrukcje</a>
+          </li>
+        </ul>
+		 <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onClick="pokazKoszyk()">
+            <span class="fa fa-shopping-cart"></span> Koszyk
+        </button>
+    </nav>
+ 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Twój koszyk</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+						<table id="koszykTable" style="border: 1px; border-style: solid;">
+								<thead style="border: 1px; border-style: solid;">
+								  <tr>
+									<th style="border: 1px; border-style: solid;">Nazwa towaru</th>
+									<th style="border: 1px; border-style: solid;">Cena</th>
+									<th style="border: 1px; border-style: solid;">Ilość</th>
+								  </tr>
+								</thead>
+								<tbody id="koszykTableBody" style="border: 1px; border-style: solid;">
+								  
+								</tbody>
+							  </table>
+							  <div style="margin-top: 10px;">
+									<select onchange="updatePrice()" id="pocztex">
+											<option default value="11.99">Poczta polska - 11.99</option>
+											<option value="19.99">Kurier - 19.99</option>
+											<option value="0.00">Odbiór w salonie - 0.00</option>								
+										  </select>
+							  </div>
+							  
+                </div>
+                <div class="modal-footer">
+						<div>Cena calkowita:</div> <div id="result"></div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                    <button type="button" class="btn btn-primary" onClick="zakupService()">Zapisz zmiany</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+			<div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-3 bg-light">
+                Lewy ekran
+              </div>
+              <div class="col-sm-6 bg-light">
+               <form>
+					<div class="form-group row">
+						<label for="towar_name" class="col-sm-2 col-form-label">Nazwa towaru</label>
+						<div class="col-sm-10">
+						<input type="text" class="form-control" id="towar_name" onInput="sprawdzTowarName()">
+						<div id="towar_name_blad"></div>
+						</div>
+						
+					</div>
+					<div class="form-group row">
+						<label for="kod_towaru" class="col-sm-2 col-form-label">Kod towaru</label>
+						<div class="col-sm-10">
+						<input type="text" class="form-control" id="kod_towaru" onInput="sprawdzKodTowaru()">
+						<div id="kod_towaru_blad"></div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="cena_netto" class="col-sm-2 col-form-label">Cena netto</label>
+						<div class="col-sm-10">
+						<input type="text" class="form-control" id="cena_netto" onBlur="sprawdzCeneNetto()">
+						<div id="cena_netto_blad"></div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="stawka_vat" class="col-sm-2 col-form-label">Stawka VAT</label>
+						<div class="col-sm-10">
+						<input type="text" class="form-control" id="stawka_vat" onBlur="sprawdzVAT()">
+						<div id="VAT_blad"></div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="cena_brutto" class="col-sm-2 col-form-label">Cena brutto</label>
+						<div class="col-sm-10">
+						<input type="text" class="form-control" id="cena_brutto" onBlur="zmienBrutto()" readonly>
+						</div>
+					</div>
+					<div class="form-group row">
+					<div class="col-sm-2 col-form-label">
+						<label for="exampleFormControlSelect1">Kategoria</label>
+						</div>
+						<div class="col-sm-10">
+						<select class="form-control" id="exampleFormControlSelect1">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						</select>
+						</div>
+					</div>	
+					<div class="form-group row">
+						<div class="col-sm-2 col-form-label">
+						<label>Opcje</label>
+						</div>
+						<div class="col-sm-10" id="checkboxes">
+						
+						<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Opcja 1" onChange="checkOptions()">
+						<label class="form-check-label" for="inlineCheckbox1">1</label>
+						</div>
+						<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="Opcja 2" onChange="checkOptions()">
+						<label class="form-check-label" for="inlineCheckbox2">2</label>
+						</div>
+						<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Opcja 3" onChange="checkOptions()">
+						<label class="form-check-label" for="inlineCheckbox3">3</label>
+						</div>
+						<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="Opcja 4" onChange="checkOptions()">
+						<label class="form-check-label" for="inlineCheckbox4">4</label>
+						</div>
+						<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="Opcja 5" onChange="checkOptions()">
+						<label class="form-check-label" for="inlineCheckbox5">5</label>
+						</div>
+						<div id="opcje_blad"></div>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+					<div class="col-sm-2 col-form-label">
+						<label>Ocena</label>
+						</div>
+						<div class="col-sm-10">
+						
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="rating1" value="1" name="rating" onClick="checkRat()">
+							<label class="form-check-label" for="rating1">1</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="rating2" value="2" name="rating" onClick="checkRat()">
+							<label class="form-check-label" for="rating2">2</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="rating3" value="3" name="rating" onClick="checkRat()">
+							<label class="form-check-label" for="rating3">3</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="rating4" value="4" name="rating" onClick="checkRat()">
+							<label class="form-check-label" for="rating4">4</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="rating5" value="5" name="rating" onClick="checkRat()">
+							<label class="form-check-label" for="rating5">5</label>
+						</div>
+						<div id="blad_radio">:(</div>
+						</div>
+						
+					</div>
+					
+					<div class="form-group row">
+					<div class="col-sm-2 col-form-label">
+						<label class="form-check-label" for="fileToUpload">Zdjęcie produktu</label>
+						</div>
+						<div class="col-sm-10">
+						
+						
+						<div class="col-sm-10">
+						<input type="input" name="fileToUpload" id="fileToUpload" value="zdj.jpg" readonly>
+						</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-10">
+						<button id="dodaj" type="button" class="btn btn-primary" onClick="checkAll()">Dodaj</button>
+						<button id="edytuj" type="button" class="btn btn-primary" onClick="checkAll()" style="display:none;">Edytuj</button>
+						</div>
+					</div>
+</form>
+                
+              </div>
+              <div class="col-sm-3 bg-light">
+                    <div class="card">
+                            <img class="card-img-top" src="port.png" alt="Card image cap">
+                            <div class="card-body">
+                              <h5 class="card-title">Kamil Śpiewak</h5>
+                              <p class="card-text">Luz i utopia</p>
+                              <a href="https://www.google.pl/maps" class="btn btn-primary">Znajdz</a>
+                            </div>
+                          </div>
+              </div>
+			</div>
+			<div class="row" style="margin-bottom: 50px;">
+					<button onclick="myFunction()">Sortuj!</button>
+					<select id="sortowanko" onchange="doSomething();" onfocus="this.selectedIndex = -1;">
+						<option>cena od najnizszej</option>
+						<option>cena od najwyzszej</option>
+						<option>ocena od najnizszej</option>
+						<option>ocena od najwyzszej</option>
+						<option>nazwa od A</option>
+						<option>nazwa od Z</option>
+					  </select>
+				<table id="myTable" class="tablesorter tablesorter-green">
+					<thead>
+					  <tr>
+						<th>Nazwa towaru</th>
+						<th data-sorter="false"><span class="kt">Kod towaru</span></th>
+						<th data-sorter="false"><span class="cn">Cena Netto</span></th>
+						<th data-sorter="false"><span class="st">Stawka</span> VAT</th>
+						<th>Cena Brutto</th>
+						<th data-sorter="false"><span class="ka">Kategoria</span></th>
+						<th data-sorter="false"><span class="op">Opcje</span></th>
+						<th>Ocena</th>
+						<th data-sorter="false"><span class="zd">Zdjęcie</span></th>
+						<th>Co chcesz zrobić</th>
+					  </tr>
+					</thead>
+					<tbody>
+					  
+					</tbody>
+				  </table>
+				  
+			</div>
+			
+			</div>
+          </div>
+          <div class="container-fluid bg-dark fixed-bottom">
+                <div class="row">
+                        
+                        <div class="col-sm-12">
+                          stopka
+                        
+                      </div>
+		  </div>
+		  <script>
+		 document.onLoad(checkRat(),sprawdzCeneNetto(),sprawdzKodTowaru(),sprawdzTowarName(),sprawdzVAT(),checkOptions());
+		  </script>
+    </body>
+</html>
