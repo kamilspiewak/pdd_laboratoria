@@ -61,7 +61,20 @@
 				price+=z;
 				res.innerHTML = price.toFixed(2);
 			}
+			function wczytaj(){
+				loadJSON(function(response) {
+					var data = JSON.parse(response);
+					for (var i = 0; i < data.length; i++) {
+						var row= "<tr><td class='exist'>"+data[i].nazwa+"</td><td>"+data[i].kod+"</td><td>"+data[i].netto+"</td><td>"+data[i].vat+"</td><td>"+data[i].opcje+"</td><td>"+"Kategoria: "+data[i].kategoria+"</td><td>"+"Opcje: "+data[i].opcje+"</td><td>"+"Ocena: "+data[i].ocena+"</td><td>"+data[i].zdjecie+"</td>"+"<td>"+buttonA+buttonD+buttonE+"</td>"+"</tr>",
+								$row=$(row),
+								resort=true;
+						$('#myTable')
+								.find('tbody').append($row)
+								.trigger('addRows', [$row, resort]);
 
+					}
+				});
+			}
 			
 			$(function(){
 				$('table').delegate('button.remove', 'click' ,function() {
@@ -113,6 +126,19 @@
 					case 2: $("#myTable").trigger("sorton", [ [[7,"a"]]]); break;
 					case 3: $("#myTable").trigger("sorton", [ [[7,"d"]]]); break;
 				}
+			}
+
+			function loadJSON(callback) {
+
+				var xobj = new XMLHttpRequest();
+				xobj.overrideMimeType("application/json");
+				xobj.open('GET', 'js/json.json', true);
+				xobj.onreadystatechange = function () {
+					if (xobj.readyState == 4 && xobj.status == "200") {
+						callback(xobj.responseText);
+					}
+				};
+				xobj.send(null);
 			}
 			</script>
 			
