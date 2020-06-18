@@ -1,0 +1,12 @@
+[
+  {"nazwa" : "produkt 1","kod":  "11111111","netto": "1","vat": "1","brutto": "1.01","opcje": "1","kategoria": "1","ocena": "5","zdjecie": "https://fotoinformator.pl/foto/2014/07/nikon-d810-iso-test.jpg"},
+  {"nazwa" : "produkt 2","kod":  "11111111","netto": "1","vat": "1","brutto": "1.01","opcje": "1","kategoria": "1","ocena": "5","zdjecie": "https://fotoinformator.pl/foto/2014/07/nikon-d810-iso-test.jpg"},
+  {"nazwa" : "produkt 3","kod":  "11111111","netto": "1","vat": "1","brutto": "1.01","opcje": "1","kategoria": "1","ocena": "5","zdjecie": "https://fotoinformator.pl/foto/2014/07/nikon-d810-iso-test.jpg"},
+  {"nazwa" : "produkt 4","kod":  "11111111","netto": "1","vat": "1","brutto": "1.01","opcje": "1","kategoria": "1","ocena": "5","zdjecie": "https://fotoinformator.pl/foto/2014/07/nikon-d810-iso-test.jpg"},
+  {"nazwa" : "produkt 5","kod":  "11111111","netto": "1","vat": "1","brutto": "1.01","opcje": "1","kategoria": "1","ocena": "5","zdjecie": "https://fotoinformator.pl/foto/2014/07/nikon-d810-iso-test.jpg"},
+  {"nazwa" : "produkt 6","kod":  "11111111","netto": "1","vat": "1","brutto": "1.01","opcje": "1","kategoria": "1","ocena": "5","zdjecie": "https://fotoinformator.pl/foto/2014/07/nikon-d810-iso-test.jpg"},
+  {"nazwa" : "produkt 7","kod":  "11111111","netto": "1","vat": "1","brutto": "1.01","opcje": "1","kategoria": "1","ocena": "5","zdjecie": "https://fotoinformator.pl/foto/2014/07/nikon-d810-iso-test.jpg"},
+  {"nazwa" : "produkt 8","kod":  "11111111","netto": "1","vat": "1","brutto": "1.01","opcje": "1","kategoria": "1","ocena": "5","zdjecie": "https://fotoinformator.pl/foto/2014/07/nikon-d810-iso-test.jpg"},
+  {"nazwa" : "produkt 9","kod":  "11111111","netto": "1","vat": "1","brutto": "1.01","opcje": "1","kategoria": "1","ocena": "5","zdjecie": "https://fotoinformator.pl/foto/2014/07/nikon-d810-iso-test.jpg"},
+  {"nazwa" : "produkt 10","kod":  "11111111","netto": "1","vat": "1","brutto": "1.01","opcje": "1","kategoria": "1","ocena": "5","zdjecie": "https://fotoinformator.pl/foto/2014/07/nikon-d810-iso-test.jpg"}
+]
